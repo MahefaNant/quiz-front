@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState} from "react";
 import {AppShell, Burger, Button, Group, useMantineColorScheme} from '@mantine/core';
 import { MantineLogo } from '@mantinex/mantine-logo';
 import ModeNightOutlinedIcon from '@mui/icons-material/ModeNightOutlined';
@@ -11,6 +11,7 @@ interface NavTopAdminProps {
 }
 
 const NavTopAdmin: React.FC<NavTopAdminProps> = ({opened , toggle}) => {
+
     const { colorScheme, setColorScheme } = useMantineColorScheme();
     const [icon, setIcon] = useState(colorScheme === 'light' ? <ModeNightOutlinedIcon /> : <WbSunnyOutlinedIcon />);
 
@@ -23,10 +24,6 @@ const NavTopAdmin: React.FC<NavTopAdminProps> = ({opened , toggle}) => {
             setIcon(<ModeNightOutlinedIcon />);
         }
     };
-
-    //const [opened, { toggle }] = useDisclosure();
-
-
 
     return(
         <>

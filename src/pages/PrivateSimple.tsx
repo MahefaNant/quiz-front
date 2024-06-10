@@ -10,8 +10,13 @@ interface PrivateSimpleProps {
 const PrivateSimple: React.FC<PrivateSimpleProps> = ({ idName, urlToNavigate }) => {
     const auth = { token: false };
 
-    const id = localStorage.getItem(idName);
-    if (id !== null) auth.token = true;
+    const idString: string | null = localStorage.getItem(idName);
+
+    auth.token = (idString != "undefined" && idString !== null);
+
+    if (!auth.token) {
+        localStorage.removeItem(idName);
+    }
 
     return (
         auth.token ? <Outlet /> : <Navigate to={urlToNavigate} />
