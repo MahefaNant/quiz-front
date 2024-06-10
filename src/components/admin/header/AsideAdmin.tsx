@@ -6,6 +6,7 @@ import {useNavigate} from "react-router-dom";
 
 const data = [
     { icon: DashboardIcon, label: 'Dashboard', description: 'Item with description', path: RouteName.adminDashboard },
+    { icon: DashboardIcon, label: 'Manage Questions', description: 'and Responses', path: RouteName.adminDashboard },
 ];
 
 const AsideAdmin : React.FC= () => {

@@ -1,5 +1,5 @@
 import {Menu, rem , Text} from "@mantine/core";
-import React from "react";
+import React, {useEffect, useState} from "react";
 
 import SettingsIcon from '@mui/icons-material/Settings';
 import SearchIcon from '@mui/icons-material/Search';
@@ -9,8 +9,16 @@ import KeyStorage from "../../../utils/KeyStorage.ts";
 import RouteName from "../../../utils/RouteName.ts";
 import {modals} from "@mantine/modals";
 import { notifications } from "@mantine/notifications";
+import axios from "axios";
+import UrlApiStorage from "../../../utils/UrlApiStorage.ts";
+import AdminService from "../../../services/AdminService.ts";
+import ErrorIcon from "@mui/icons-material/Error";
 
 const DropDownMenuHeaderAdmin : React.FC = () => {
+
+    const idAdmin : string | null  = localStorage.getItem(KeyStorage.adminKey);
+    const [admin , setAdmin] = useState<Admin | null>(null);
+
     const navigate = useNavigate();
 
     const logOut = () => {
@@ -43,12 +51,66 @@ const DropDownMenuHeaderAdmin : React.FC = () => {
             },
         });
 
+    useEffect(() => {
+        const getAdmin = async () => {
+            try {
+                const response = await axios.get(UrlApiStorage.adminGet + idAdmin , {
+                    headers: {
+                        'Authorization' : AdminService.basicAuth,
+                        'Content-Type' : 'application/json'
+                    } ,
+                });
+
+                const admin = response.data;
+                setAdmin(admin);
+            } catch (error) {
+                localStorage.removeItem(KeyStorage.adminKey);
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-expect-error
+                const er = error.response;
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-expect-error
+                const erMessage = error.message;
+                const erData = er.data;
+                const erDataMessage = er.data.message;
+
+                if (er && erData && erDataMessage) {
+                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                    // @ts-ignore
+                    notifications.show({
+                        title: 'Error !',
+                        message: erDataMessage, // Récupérer le message de l'API
+                        color: 'red',
+                        icon: <ErrorIcon />,
+                        withBorder: true
+                    });
+                } else {
+                    // Si l'erreur n'est pas liée à la réponse de l'API, utilisez error.message
+                    notifications.show({
+                        title: 'System Error!',
+                        message: erMessage,
+                        color: 'red',
+                        icon: <ErrorIcon />,
+                        withBorder: true
+                    });
+                }
+            }
+        }
+
+        (async () => {
+            await getAdmin();
+        })();
+    }, [idAdmin]);
 
 
 
     return(
         <>
             <Menu.Dropdown>
+                <Menu.Label>Admin</Menu.Label>
+                <Menu.Item >
+                    { admin?.mail }
+                </Menu.Item>
                 <Menu.Label>Application</Menu.Label>
                 <Menu.Item leftSection={<SettingsIcon style={{ width: rem(14), height: rem(14) }} />}>
                     Settings

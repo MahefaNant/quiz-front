@@ -20,7 +20,6 @@ import AdminService from "../../services/AdminService.ts";
 import axios from "axios";
 import DoneIcon from '@mui/icons-material/Done';
 import ErrorIcon from '@mui/icons-material/Error';
-import WarningIcon from '@mui/icons-material/Warning';
 import RouteName from "../../utils/RouteName.ts";
 
 const LoginAdmin: React.FC = () => {
@@ -47,37 +46,50 @@ const LoginAdmin: React.FC = () => {
                 } ,
             });
 
+
+
             const messageMod = response.data;
 
-            if (messageMod.num === 1) {
-                notifications.show({
-                    title: 'Login successful.',
-                    message: messageMod.message,
-                    color: 'green',
-                    icon: <DoneIcon />
-                })
-                localStorage.setItem(KeyStorage.adminKey , messageMod.num);
-                setLoading(false);
-                navigate(RouteName.adminDashboard);
-            } else {
+            notifications.show({
+                title: 'Login successful.',
+                message: messageMod.message,
+                color: 'green',
+                icon: <DoneIcon />
+            })
+            localStorage.setItem(KeyStorage.adminKey , messageMod.id);
+            setLoading(false);
+            navigate(RouteName.adminDashboard);
+
+        } catch (error) {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
+            const er = error.response;
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
+            const erMessage = error.message;
+            const erData = er.data;
+            const erDataMessage = er.data.message;
+
+            if (er && erData && erDataMessage) {
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore
                 notifications.show({
                     title: 'Login failed.',
-                    message: messageMod.message,
+                    message: erDataMessage, // Récupérer le message de l'API
                     color: 'red',
-                    icon: <ErrorIcon /> ,
+                    icon: <ErrorIcon />,
+                    withBorder: true
+                });
+            } else {
+                // Si l'erreur n'est pas liée à la réponse de l'API, utilisez error.message
+                notifications.show({
+                    title: 'Login failed.',
+                    message: erMessage,
+                    color: 'red',
+                    icon: <ErrorIcon />,
                     withBorder: true
                 });
             }
-
-        } catch (error) {
-            notifications.show({
-                title: 'Login failed.',
-                message: '(Bad Error)',
-                icon: <WarningIcon /> ,
-                color: 'yellow',
-                style: {background: 'yellow'},
-                withBorder: true ,
-            });
 
         } finally {
             setLoading(false);
