@@ -1,18 +1,26 @@
 import {AppShell, Box, NavLink, ScrollArea} from "@mantine/core";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import RouteName from "../../../utils/RouteName.ts";
 import {useNavigate} from "react-router-dom";
 
 const data = [
-    { icon: DashboardIcon, label: 'Dashboard', description: 'Item with description', path: RouteName.adminDashboard },
-    { icon: DashboardIcon, label: 'Manage Questions', description: 'and Responses', path: RouteName.adminDashboard },
+    { icon: DashboardIcon, label: 'Dashboard', description: 'Item with description', path: RouteName.dashboardAdmin },
+    { icon: DashboardIcon, label: 'Manage Questions', description: 'and Responses', path: RouteName.questionAdmin },
 ];
 
 const AsideAdmin : React.FC= () => {
 
-    const [active, setActive] = useState(0);
+    const [active, setActive] = useState<number>(() => {
+        const savedActiveIndex = localStorage.getItem('activeIndexAdmin');
+        return savedActiveIndex !== null ? parseInt(savedActiveIndex, 10) : 0;
+    });
     const navigate = useNavigate();
+
+    useEffect(() => {
+        localStorage.setItem('activeIndexAdmin', active.toString());
+    }, [active]);
+
     const handleClick = (index : number , path: string) => {
         setActive(index);
         navigate(path);

@@ -58,7 +58,7 @@ const LoginAdmin: React.FC = () => {
             })
             localStorage.setItem(KeyStorage.adminKey , messageMod.id);
             setLoading(false);
-            navigate(RouteName.adminDashboard);
+            navigate(RouteName.dashboardAdmin);
 
         } catch (error) {
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment

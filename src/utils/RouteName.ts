@@ -1,9 +1,18 @@
+
 export default class RouteName {
 
     /*--------ADMIN-------------*/
-    static adminRacine : string = "/admin";
-    static adminLogin : string =  this.adminRacine + "/login";
-    static adminDashboard : string = this.adminRacine + "/dashboard"
+
+    static adminRoutes = {
+        racine: "/admin",
+        dashboard: "dashboard",
+        question: "question"
+    };
+
+    static loginAdmin : string = this.adminRoutes.racine + "/login";
+    static dashboardAdmin : string = this.adminRoutes.racine + "/" +this.adminRoutes.dashboard;
+    static questionAdmin : string = this.adminRoutes.racine + "/" +this.adminRoutes.question;
+
 
     /*----------------------------*/
 
