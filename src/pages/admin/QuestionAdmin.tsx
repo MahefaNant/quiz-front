@@ -1,4 +1,5 @@
 import React from "react";
+import ListQuestionsAdmin from "../../components/admin/question/ListQuestionsAdmin.tsx";
 
 const QuestionAdmin : React.FC = () => {
 
@@ -7,6 +8,7 @@ const QuestionAdmin : React.FC = () => {
         <>
 
             <h1>Question</h1>
+            <ListQuestionsAdmin />
         </>
     );
 }

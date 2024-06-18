@@ -63,12 +63,7 @@ const LoginAdmin: React.FC = () => {
         } catch (error) {
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-expect-error
-            const er = error.response;
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
-            const erMessage = error.message;
-            const erData = er.data;
-            const erDataMessage = er.data.message;
+            const er = error.response, erMessage = error.message, erData = er.data, erDataMessage = er.data.message;
 
             if (er && erData && erDataMessage) {
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
