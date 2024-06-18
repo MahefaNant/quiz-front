@@ -5,6 +5,7 @@ export default class UrlApiStorage {
 
     static adminLogin : string = this.adminInitialUrl + "/login";
     static adminGet : string = this.adminInitialUrl + "/get-";
+    static questionsGetAdmin = this.adminInitialUrl + "/question";
 
     /*---------------------------*/
     static candidateInitialUrl : string = this.initialUrlApi + "/candidate";

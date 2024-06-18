@@ -13,17 +13,18 @@ import axios from "axios";
 import UrlApiStorage from "../../../utils/UrlApiStorage.ts";
 import AdminService from "../../../services/AdminService.ts";
 import ErrorIcon from "@mui/icons-material/Error";
+import { Admin } from "../../../models/Admin.ts";
 
 const DropDownMenuHeaderAdmin : React.FC = () => {
 
     const idAdmin : string | null  = localStorage.getItem(KeyStorage.adminKey);
-    const [admin , setAdmin] = useState<Admin | null>(null);
+    const [admin, setAdmin] = useState<Admin | null>(null);
 
     const navigate = useNavigate();
 
     const logOut = () => {
-        localStorage.removeItem(KeyStorage.adminKey);
-        navigate(RouteName.adminLogin);
+        localStorage.clear();
+        navigate(RouteName.loginAdmin);
     }
     const openLogOutModal = () =>
         modals.openConfirmModal({
@@ -67,12 +68,7 @@ const DropDownMenuHeaderAdmin : React.FC = () => {
                 localStorage.removeItem(KeyStorage.adminKey);
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 // @ts-expect-error
-                const er = error.response;
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-expect-error
-                const erMessage = error.message;
-                const erData = er.data;
-                const erDataMessage = er.data.message;
+                const er = error.response, erMessage = error.message, erData = er.data, erDataMessage = er.data.message;
 
                 if (er && erData && erDataMessage) {
                     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
